@@ -1,0 +1,19 @@
+# Build outputs
+bin/
+obj/
+
+# User files
+.DS_Store
+*.user
+
+# Database
+*.db
+*.db-shm
+*.db-wal
+
+# Logs
+logs/
+
+# IDE
+.idea/
+.vscode/

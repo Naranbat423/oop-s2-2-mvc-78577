@@ -1,0 +1,11 @@
+/Users/naranbatnarka/Desktop/FoodSafety/FoodSafety.Domain/bin/Debug/net10.0/FoodSafety.Domain.deps.json
+/Users/naranbatnarka/Desktop/FoodSafety/FoodSafety.Domain/bin/Debug/net10.0/FoodSafety.Domain.dll
+/Users/naranbatnarka/Desktop/FoodSafety/FoodSafety.Domain/bin/Debug/net10.0/FoodSafety.Domain.pdb
+/Users/naranbatnarka/Desktop/FoodSafety/FoodSafety.Domain/obj/Debug/net10.0/FoodSafety.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/Users/naranbatnarka/Desktop/FoodSafety/FoodSafety.Domain/obj/Debug/net10.0/FoodSafety.Domain.AssemblyInfoInputs.cache
+/Users/naranbatnarka/Desktop/FoodSafety/FoodSafety.Domain/obj/Debug/net10.0/FoodSafety.Domain.AssemblyInfo.cs
+/Users/naranbatnarka/Desktop/FoodSafety/FoodSafety.Domain/obj/Debug/net10.0/FoodSafety.Domain.csproj.CoreCompileInputs.cache
+/Users/naranbatnarka/Desktop/FoodSafety/FoodSafety.Domain/obj/Debug/net10.0/FoodSafety.Domain.dll
+/Users/naranbatnarka/Desktop/FoodSafety/FoodSafety.Domain/obj/Debug/net10.0/refint/FoodSafety.Domain.dll
+/Users/naranbatnarka/Desktop/FoodSafety/FoodSafety.Domain/obj/Debug/net10.0/FoodSafety.Domain.pdb
+/Users/naranbatnarka/Desktop/FoodSafety/FoodSafety.Domain/obj/Debug/net10.0/ref/FoodSafety.Domain.dll

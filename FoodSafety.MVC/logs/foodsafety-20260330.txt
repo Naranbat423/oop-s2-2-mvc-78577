@@ -1,0 +1,550 @@
+2026-03-30 11:24:23.603 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+PRAGMA journal_mode = 'wal';
+2026-03-30 11:24:23.624 +01:00 [INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2026-03-30 11:24:23.627 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*) FROM "sqlite_master" WHERE "name" = '__EFMigrationsLock' AND "type" = 'table';
+2026-03-30 11:24:23.627 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE IF NOT EXISTS "__EFMigrationsLock" (
+    "Id" INTEGER NOT NULL CONSTRAINT "PK___EFMigrationsLock" PRIMARY KEY,
+    "Timestamp" TEXT NOT NULL
+);
+2026-03-30 11:24:23.628 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT OR IGNORE INTO "__EFMigrationsLock"("Id", "Timestamp") VALUES(1, '2026-03-30 10:24:23.627866+00:00');
+SELECT changes();
+2026-03-30 11:24:23.646 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE IF NOT EXISTS "__EFMigrationsHistory" (
+    "MigrationId" TEXT NOT NULL CONSTRAINT "PK___EFMigrationsHistory" PRIMARY KEY,
+    "ProductVersion" TEXT NOT NULL
+);
+2026-03-30 11:24:23.649 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*) FROM "sqlite_master" WHERE "name" = '__EFMigrationsHistory' AND "type" = 'table';
+2026-03-30 11:24:23.649 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2026-03-30 11:24:23.652 +01:00 [INF] Applying migration '20260330102421_InitialCreate'.
+2026-03-30 11:24:23.661 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "AspNetRoles" (
+    "Id" TEXT NOT NULL CONSTRAINT "PK_AspNetRoles" PRIMARY KEY,
+    "Name" TEXT NULL,
+    "NormalizedName" TEXT NULL,
+    "ConcurrencyStamp" TEXT NULL
+);
+2026-03-30 11:24:23.662 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "AspNetUsers" (
+    "Id" TEXT NOT NULL CONSTRAINT "PK_AspNetUsers" PRIMARY KEY,
+    "UserName" TEXT NULL,
+    "NormalizedUserName" TEXT NULL,
+    "Email" TEXT NULL,
+    "NormalizedEmail" TEXT NULL,
+    "EmailConfirmed" INTEGER NOT NULL,
+    "PasswordHash" TEXT NULL,
+    "SecurityStamp" TEXT NULL,
+    "ConcurrencyStamp" TEXT NULL,
+    "PhoneNumber" TEXT NULL,
+    "PhoneNumberConfirmed" INTEGER NOT NULL,
+    "TwoFactorEnabled" INTEGER NOT NULL,
+    "LockoutEnd" TEXT NULL,
+    "LockoutEnabled" INTEGER NOT NULL,
+    "AccessFailedCount" INTEGER NOT NULL
+);
+2026-03-30 11:24:23.662 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Premises" (
+    "Id" INTEGER NOT NULL CONSTRAINT "PK_Premises" PRIMARY KEY AUTOINCREMENT,
+    "Name" TEXT NOT NULL,
+    "Address" TEXT NOT NULL,
+    "Town" TEXT NOT NULL,
+    "RiskRating" TEXT NOT NULL
+);
+2026-03-30 11:24:23.662 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "AspNetRoleClaims" (
+    "Id" INTEGER NOT NULL CONSTRAINT "PK_AspNetRoleClaims" PRIMARY KEY AUTOINCREMENT,
+    "RoleId" TEXT NOT NULL,
+    "ClaimType" TEXT NULL,
+    "ClaimValue" TEXT NULL,
+    CONSTRAINT "FK_AspNetRoleClaims_AspNetRoles_RoleId" FOREIGN KEY ("RoleId") REFERENCES "AspNetRoles" ("Id") ON DELETE CASCADE
+);
+2026-03-30 11:24:23.662 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "AspNetUserClaims" (
+    "Id" INTEGER NOT NULL CONSTRAINT "PK_AspNetUserClaims" PRIMARY KEY AUTOINCREMENT,
+    "UserId" TEXT NOT NULL,
+    "ClaimType" TEXT NULL,
+    "ClaimValue" TEXT NULL,
+    CONSTRAINT "FK_AspNetUserClaims_AspNetUsers_UserId" FOREIGN KEY ("UserId") REFERENCES "AspNetUsers" ("Id") ON DELETE CASCADE
+);
+2026-03-30 11:24:23.662 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "AspNetUserLogins" (
+    "LoginProvider" TEXT NOT NULL,
+    "ProviderKey" TEXT NOT NULL,
+    "ProviderDisplayName" TEXT NULL,
+    "UserId" TEXT NOT NULL,
+    CONSTRAINT "PK_AspNetUserLogins" PRIMARY KEY ("LoginProvider", "ProviderKey"),
+    CONSTRAINT "FK_AspNetUserLogins_AspNetUsers_UserId" FOREIGN KEY ("UserId") REFERENCES "AspNetUsers" ("Id") ON DELETE CASCADE
+);
+2026-03-30 11:24:23.662 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "AspNetUserRoles" (
+    "UserId" TEXT NOT NULL,
+    "RoleId" TEXT NOT NULL,
+    CONSTRAINT "PK_AspNetUserRoles" PRIMARY KEY ("UserId", "RoleId"),
+    CONSTRAINT "FK_AspNetUserRoles_AspNetRoles_RoleId" FOREIGN KEY ("RoleId") REFERENCES "AspNetRoles" ("Id") ON DELETE CASCADE,
+    CONSTRAINT "FK_AspNetUserRoles_AspNetUsers_UserId" FOREIGN KEY ("UserId") REFERENCES "AspNetUsers" ("Id") ON DELETE CASCADE
+);
+2026-03-30 11:24:23.662 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "AspNetUserTokens" (
+    "UserId" TEXT NOT NULL,
+    "LoginProvider" TEXT NOT NULL,
+    "Name" TEXT NOT NULL,
+    "Value" TEXT NULL,
+    CONSTRAINT "PK_AspNetUserTokens" PRIMARY KEY ("UserId", "LoginProvider", "Name"),
+    CONSTRAINT "FK_AspNetUserTokens_AspNetUsers_UserId" FOREIGN KEY ("UserId") REFERENCES "AspNetUsers" ("Id") ON DELETE CASCADE
+);
+2026-03-30 11:24:23.662 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Inspections" (
+    "Id" INTEGER NOT NULL CONSTRAINT "PK_Inspections" PRIMARY KEY AUTOINCREMENT,
+    "PremisesId" INTEGER NOT NULL,
+    "InspectionDate" TEXT NOT NULL,
+    "Score" INTEGER NOT NULL,
+    "Outcome" TEXT NOT NULL,
+    "Notes" TEXT NOT NULL,
+    CONSTRAINT "FK_Inspections_Premises_PremisesId" FOREIGN KEY ("PremisesId") REFERENCES "Premises" ("Id") ON DELETE RESTRICT
+);
+2026-03-30 11:24:23.662 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "FollowUps" (
+    "Id" INTEGER NOT NULL CONSTRAINT "PK_FollowUps" PRIMARY KEY AUTOINCREMENT,
+    "InspectionId" INTEGER NOT NULL,
+    "DueDate" TEXT NOT NULL,
+    "Status" TEXT NOT NULL,
+    "ClosedDate" TEXT NULL,
+    CONSTRAINT "FK_FollowUps_Inspections_InspectionId" FOREIGN KEY ("InspectionId") REFERENCES "Inspections" ("Id") ON DELETE RESTRICT
+);
+2026-03-30 11:24:23.662 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX "IX_AspNetRoleClaims_RoleId" ON "AspNetRoleClaims" ("RoleId");
+2026-03-30 11:24:23.662 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE UNIQUE INDEX "RoleNameIndex" ON "AspNetRoles" ("NormalizedName");
+2026-03-30 11:24:23.662 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX "IX_AspNetUserClaims_UserId" ON "AspNetUserClaims" ("UserId");
+2026-03-30 11:24:23.663 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX "IX_AspNetUserLogins_UserId" ON "AspNetUserLogins" ("UserId");
+2026-03-30 11:24:23.663 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX "IX_AspNetUserRoles_RoleId" ON "AspNetUserRoles" ("RoleId");
+2026-03-30 11:24:23.663 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX "EmailIndex" ON "AspNetUsers" ("NormalizedEmail");
+2026-03-30 11:24:23.663 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE UNIQUE INDEX "UserNameIndex" ON "AspNetUsers" ("NormalizedUserName");
+2026-03-30 11:24:23.663 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX "IX_FollowUps_InspectionId" ON "FollowUps" ("InspectionId");
+2026-03-30 11:24:23.663 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX "IX_Inspections_PremisesId" ON "Inspections" ("PremisesId");
+2026-03-30 11:24:23.663 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20260330102421_InitialCreate', '10.0.0-rc.1.25451.107');
+2026-03-30 11:24:23.663 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DELETE FROM "__EFMigrationsLock";
+2026-03-30 11:24:29.190 +01:00 [INF] User profile is available. Using '/Users/naranbatnarka/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-03-30 11:24:29.255 +01:00 [INF] Now listening on: http://localhost:5123
+2026-03-30 11:24:29.255 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-03-30 11:24:29.255 +01:00 [INF] Hosting environment: Development
+2026-03-30 11:24:29.255 +01:00 [INF] Content root path: /Users/naranbatnarka/Desktop/FoodSafety/FoodSafety.MVC
+2026-03-30 11:24:32.946 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5123/ - null null
+2026-03-30 11:24:32.948 +01:00 [WRN] Failed to determine the https port for redirect.
+2026-03-30 11:24:32.965 +01:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2026-03-30 11:24:32.967 +01:00 [INF] Executing endpoint 'FoodSafety.MVC.Controllers.HomeController.Index (FoodSafety.MVC)'
+2026-03-30 11:24:32.978 +01:00 [INF] Route matched with {action = "Index", controller = "Home", page = "", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller FoodSafety.MVC.Controllers.HomeController (FoodSafety.MVC).
+2026-03-30 11:24:32.981 +01:00 [INF] Executing ViewResult, running view Index.
+2026-03-30 11:24:33.073 +01:00 [INF] Executed ViewResult - view Index executed in 93.4188ms.
+2026-03-30 11:24:33.074 +01:00 [INF] Executed action FoodSafety.MVC.Controllers.HomeController.Index (FoodSafety.MVC) in 95.4867ms
+2026-03-30 11:24:33.074 +01:00 [INF] Executed endpoint 'FoodSafety.MVC.Controllers.HomeController.Index (FoodSafety.MVC)'
+2026-03-30 11:24:33.074 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5123/ - 200 null text/html; charset=utf-8 129.836ms
+2026-03-30 11:24:33.108 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5123/css/site.css?v=zeR5PHeeHbxfGkL8WV86OzdoF6UnjuCmnagaocD-cbo - null null
+2026-03-30 11:24:33.109 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5123/FoodSafety.MVC.styles.css?v=vc2rrIu8djCePU5iqjSihkX9j-9DZa1dwTuL-ivdTdU - null null
+2026-03-30 11:24:33.109 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5123/lib/bootstrap/dist/css/bootstrap.min.css - null null
+2026-03-30 11:24:33.110 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5123/lib/jquery/dist/jquery.min.js - null null
+2026-03-30 11:24:33.110 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5123/js/site.js?v=y_Ngd8W21UpuCUhEqGbUKDEqFnNfTjAfb24GhJJGUyM - null null
+2026-03-30 11:24:33.111 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5123/lib/bootstrap/dist/js/bootstrap.bundle.min.js - null null
+2026-03-30 11:24:33.116 +01:00 [INF] Sending file. Request path: '/css/site.css'. Physical path: '/Users/naranbatnarka/Desktop/FoodSafety/FoodSafety.MVC/wwwroot/css/site.css'
+2026-03-30 11:24:33.116 +01:00 [INF] Sending file. Request path: '/js/site.js'. Physical path: '/Users/naranbatnarka/Desktop/FoodSafety/FoodSafety.MVC/wwwroot/js/site.js'
+2026-03-30 11:24:33.116 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5123/css/site.css?v=zeR5PHeeHbxfGkL8WV86OzdoF6UnjuCmnagaocD-cbo - 200 637 text/css 8.2307ms
+2026-03-30 11:24:33.116 +01:00 [INF] Sending file. Request path: '/FoodSafety.MVC.styles.css'. Physical path: '/Users/naranbatnarka/Desktop/FoodSafety/FoodSafety.MVC/obj/Debug/net10.0/scopedcss/bundle/FoodSafety.MVC.styles.css'
+2026-03-30 11:24:33.116 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5123/js/site.js?v=y_Ngd8W21UpuCUhEqGbUKDEqFnNfTjAfb24GhJJGUyM - 200 227 text/javascript 6.165ms
+2026-03-30 11:24:33.117 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5123/FoodSafety.MVC.styles.css?v=vc2rrIu8djCePU5iqjSihkX9j-9DZa1dwTuL-ivdTdU - 200 1060 text/css 8.0619ms
+2026-03-30 11:24:33.117 +01:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/js/bootstrap.bundle.min.js'. Physical path: '/Users/naranbatnarka/Desktop/FoodSafety/FoodSafety.MVC/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js'
+2026-03-30 11:24:33.117 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5123/lib/bootstrap/dist/js/bootstrap.bundle.min.js - 200 80721 text/javascript 6.7607ms
+2026-03-30 11:24:33.117 +01:00 [INF] Sending file. Request path: '/lib/jquery/dist/jquery.min.js'. Physical path: '/Users/naranbatnarka/Desktop/FoodSafety/FoodSafety.MVC/wwwroot/lib/jquery/dist/jquery.min.js'
+2026-03-30 11:24:33.118 +01:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/css/bootstrap.min.css'. Physical path: '/Users/naranbatnarka/Desktop/FoodSafety/FoodSafety.MVC/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css'
+2026-03-30 11:24:33.118 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5123/lib/jquery/dist/jquery.min.js - 200 87533 text/javascript 7.5384ms
+2026-03-30 11:24:33.118 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5123/lib/bootstrap/dist/css/bootstrap.min.css - 200 232803 text/css 8.5477ms
+2026-03-30 11:24:59.942 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5123/ - null null
+2026-03-30 11:24:59.949 +01:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2026-03-30 11:24:59.949 +01:00 [INF] Executing endpoint 'FoodSafety.MVC.Controllers.HomeController.Index (FoodSafety.MVC)'
+2026-03-30 11:24:59.950 +01:00 [INF] Route matched with {action = "Index", controller = "Home", page = "", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller FoodSafety.MVC.Controllers.HomeController (FoodSafety.MVC).
+2026-03-30 11:24:59.951 +01:00 [INF] Executing ViewResult, running view Index.
+2026-03-30 11:24:59.955 +01:00 [INF] Executed ViewResult - view Index executed in 4.2097ms.
+2026-03-30 11:24:59.955 +01:00 [INF] Executed action FoodSafety.MVC.Controllers.HomeController.Index (FoodSafety.MVC) in 5.0195ms
+2026-03-30 11:24:59.955 +01:00 [INF] Executed endpoint 'FoodSafety.MVC.Controllers.HomeController.Index (FoodSafety.MVC)'
+2026-03-30 11:24:59.956 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5123/ - 200 null text/html; charset=utf-8 13.5736ms
+2026-03-30 11:24:59.958 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5123/favicon.ico - null null
+2026-03-30 11:24:59.967 +01:00 [INF] Sending file. Request path: '/favicon.ico'. Physical path: '/Users/naranbatnarka/Desktop/FoodSafety/FoodSafety.MVC/wwwroot/favicon.ico'
+2026-03-30 11:24:59.967 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5123/favicon.ico - 200 5430 image/x-icon 9.1487ms
+2026-03-30 11:25:17.408 +01:00 [INF] Application is shutting down...
+2026-03-30 11:28:12.561 +01:00 [INF] User profile is available. Using '/Users/naranbatnarka/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-03-30 11:28:12.631 +01:00 [INF] Now listening on: http://localhost:5123
+2026-03-30 11:28:12.631 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-03-30 11:28:12.631 +01:00 [INF] Hosting environment: Development
+2026-03-30 11:28:12.631 +01:00 [INF] Content root path: /Users/naranbatnarka/Desktop/FoodSafety/FoodSafety.MVC
+2026-03-30 11:28:14.860 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5123/ - null null
+2026-03-30 11:28:14.862 +01:00 [WRN] Failed to determine the https port for redirect.
+2026-03-30 11:28:14.878 +01:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2026-03-30 11:28:14.880 +01:00 [INF] Executing endpoint 'FoodSafety.MVC.Controllers.HomeController.Index (FoodSafety.MVC)'
+2026-03-30 11:28:14.895 +01:00 [INF] Route matched with {action = "Index", controller = "Home", page = "", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller FoodSafety.MVC.Controllers.HomeController (FoodSafety.MVC).
+2026-03-30 11:28:14.897 +01:00 [INF] Executing ViewResult, running view Index.
+2026-03-30 11:28:14.954 +01:00 [INF] Executed action FoodSafety.MVC.Controllers.HomeController.Index (FoodSafety.MVC) in 57.8001ms
+2026-03-30 11:28:14.954 +01:00 [INF] Executed endpoint 'FoodSafety.MVC.Controllers.HomeController.Index (FoodSafety.MVC)'
+2026-03-30 11:28:14.955 +01:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: The partial view '_LoginPartial' was not found. The following locations were searched:
+/Views/Home/_LoginPartial.cshtml
+/Views/Shared/_LoginPartial.cshtml
+/Pages/Shared/_LoginPartial.cshtml
+   at Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper.ProcessAsync(TagHelperContext context, TagHelperOutput output)
+   at Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner.<RunAsync>g__Awaited|0_0(Task task, TagHelperExecutionContext executionContext, Int32 i, Int32 count)
+   at AspNetCoreGeneratedDocument.Views_Shared__Layout.<ExecuteAsync>b__27_1() in /Users/naranbatnarka/Desktop/FoodSafety/FoodSafety.MVC/Views/Shared/_Layout.cshtml:line 38
+   at Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperExecutionContext.SetOutputContentAsync()
+   at AspNetCoreGeneratedDocument.Views_Shared__Layout.ExecuteAsync()
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageCoreAsync(IRazorPage page, ViewContext context)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageAsync(IRazorPage page, ViewContext context, Boolean invokeViewStarts)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderLayoutAsync(ViewContext context, ViewBufferTextWriter bodyWriter)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderAsync(ViewContext context)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ActionContext actionContext, IView view, ViewDataDictionary viewData, ITempDataDictionary tempData, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor.ExecuteAsync(ActionContext context, ViewResult result)
+   at Microsoft.AspNetCore.Mvc.ViewResult.ExecuteResultAsync(ActionContext context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2026-03-30 11:28:14.968 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5123/ - 500 null text/html; charset=utf-8 108.7942ms
+2026-03-30 11:28:49.945 +01:00 [INF] Application is shutting down...
+2026-03-30 11:31:52.601 +01:00 [INF] User profile is available. Using '/Users/naranbatnarka/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-03-30 11:31:52.671 +01:00 [INF] Now listening on: http://localhost:5123
+2026-03-30 11:31:52.671 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-03-30 11:31:52.672 +01:00 [INF] Hosting environment: Development
+2026-03-30 11:31:52.672 +01:00 [INF] Content root path: /Users/naranbatnarka/Desktop/FoodSafety/FoodSafety.MVC
+2026-03-30 11:31:54.394 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5123/ - null null
+2026-03-30 11:31:54.396 +01:00 [WRN] Failed to determine the https port for redirect.
+2026-03-30 11:31:54.412 +01:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2026-03-30 11:31:54.413 +01:00 [INF] Executing endpoint 'FoodSafety.MVC.Controllers.HomeController.Index (FoodSafety.MVC)'
+2026-03-30 11:31:54.429 +01:00 [INF] Route matched with {action = "Index", controller = "Home", page = "", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller FoodSafety.MVC.Controllers.HomeController (FoodSafety.MVC).
+2026-03-30 11:31:54.432 +01:00 [INF] Executing ViewResult, running view Index.
+2026-03-30 11:31:54.595 +01:00 [INF] Executed ViewResult - view Index executed in 163.8087ms.
+2026-03-30 11:31:54.595 +01:00 [INF] Executed action FoodSafety.MVC.Controllers.HomeController.Index (FoodSafety.MVC) in 165.9523ms
+2026-03-30 11:31:54.595 +01:00 [INF] Executed endpoint 'FoodSafety.MVC.Controllers.HomeController.Index (FoodSafety.MVC)'
+2026-03-30 11:31:54.596 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5123/ - 200 null text/html; charset=utf-8 203.1998ms
+2026-03-30 11:31:54.633 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5123/css/site.css?v=zeR5PHeeHbxfGkL8WV86OzdoF6UnjuCmnagaocD-cbo - null null
+2026-03-30 11:31:54.634 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5123/js/site.js?v=y_Ngd8W21UpuCUhEqGbUKDEqFnNfTjAfb24GhJJGUyM - null null
+2026-03-30 11:31:54.634 +01:00 [INF] The file /js/site.js was not modified
+2026-03-30 11:31:54.634 +01:00 [INF] The file /css/site.css was not modified
+2026-03-30 11:31:54.635 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5123/js/site.js?v=y_Ngd8W21UpuCUhEqGbUKDEqFnNfTjAfb24GhJJGUyM - 304 null text/javascript 0.9845ms
+2026-03-30 11:31:54.635 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5123/css/site.css?v=zeR5PHeeHbxfGkL8WV86OzdoF6UnjuCmnagaocD-cbo - 304 null text/css 1.986ms
+2026-03-30 11:31:57.457 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5123/Identity/Account/Register - null null
+2026-03-30 11:31:57.469 +01:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2026-03-30 11:31:57.469 +01:00 [INF] Executing endpoint '/Account/Register'
+2026-03-30 11:31:57.482 +01:00 [INF] Route matched with {page = "/Account/Register", area = "Identity", action = "", controller = ""}. Executing page /Account/Register
+2026-03-30 11:31:57.492 +01:00 [INF] Executing handler method FoodSafety.MVC.Areas.Identity.Pages.Account.RegisterModel.OnGet - ModelState is "Valid"
+2026-03-30 11:31:57.493 +01:00 [INF] Executed handler method OnGet, returned result .
+2026-03-30 11:31:57.494 +01:00 [INF] Executing an implicit handler method - ModelState is "Valid"
+2026-03-30 11:31:57.494 +01:00 [INF] Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+2026-03-30 11:31:57.504 +01:00 [INF] Executed page /Account/Register in 21.8883ms
+2026-03-30 11:31:57.505 +01:00 [INF] Executed endpoint '/Account/Register'
+2026-03-30 11:31:57.505 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5123/Identity/Account/Register - 200 null text/html; charset=utf-8 48.5163ms
+2026-03-30 11:31:59.326 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5123/Identity/Account/Login - null null
+2026-03-30 11:31:59.335 +01:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2026-03-30 11:31:59.335 +01:00 [INF] Executing endpoint '/Account/Login'
+2026-03-30 11:31:59.343 +01:00 [INF] Route matched with {page = "/Account/Login", area = "Identity", action = "", controller = ""}. Executing page /Account/Login
+2026-03-30 11:31:59.544 +01:00 [INF] Executing handler method FoodSafety.MVC.Areas.Identity.Pages.Account.LoginModel.OnGetAsync - ModelState is "Valid"
+2026-03-30 11:31:59.545 +01:00 [INF] Executed handler method OnGetAsync, returned result .
+2026-03-30 11:31:59.545 +01:00 [INF] Executing an implicit handler method - ModelState is "Valid"
+2026-03-30 11:31:59.545 +01:00 [INF] Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+2026-03-30 11:31:59.553 +01:00 [INF] Executed page /Account/Login in 22.7626ms
+2026-03-30 11:31:59.553 +01:00 [INF] Executed endpoint '/Account/Login'
+2026-03-30 11:31:59.553 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5123/Identity/Account/Login - 200 null text/html; charset=utf-8 227.1637ms
+2026-03-30 11:32:12.597 +01:00 [INF] Request starting HTTP/1.1 POST http://localhost:5123/Identity/Account/Login - application/x-www-form-urlencoded 0
+2026-03-30 11:32:12.600 +01:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2026-03-30 11:32:12.600 +01:00 [INF] Executing endpoint '/Account/Login'
+2026-03-30 11:32:12.601 +01:00 [INF] Route matched with {page = "/Account/Login", area = "Identity", action = "", controller = ""}. Executing page /Account/Login
+2026-03-30 11:32:12.605 +01:00 [INF] Antiforgery token validation failed. The required antiforgery cookie ".AspNetCore.Antiforgery.6lm_wG-lzSw" is not present.
+Microsoft.AspNetCore.Antiforgery.AntiforgeryValidationException: The required antiforgery cookie ".AspNetCore.Antiforgery.6lm_wG-lzSw" is not present.
+   at Microsoft.AspNetCore.Antiforgery.DefaultAntiforgery.ValidateRequestAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.Filters.ValidateAntiforgeryTokenAuthorizationFilter.OnAuthorizationAsync(AuthorizationFilterContext context)
+2026-03-30 11:32:12.615 +01:00 [INF] Authorization failed for the request at filter 'Microsoft.AspNetCore.Mvc.ViewFeatures.Filters.AutoValidateAntiforgeryTokenAuthorizationFilter'.
+2026-03-30 11:32:12.617 +01:00 [INF] Executing StatusCodeResult, setting HTTP status code 400
+2026-03-30 11:32:12.617 +01:00 [INF] Executed page /Account/Login in 16.0495ms
+2026-03-30 11:32:12.617 +01:00 [INF] Executed endpoint '/Account/Login'
+2026-03-30 11:32:12.617 +01:00 [INF] Request finished HTTP/1.1 POST http://localhost:5123/Identity/Account/Login - 400 0 null 20.13ms
+2026-03-30 11:32:18.304 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5123/Identity/Account/Login - null null
+2026-03-30 11:32:18.306 +01:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2026-03-30 11:32:18.306 +01:00 [INF] Executing endpoint '/Account/Login'
+2026-03-30 11:32:18.308 +01:00 [INF] Route matched with {page = "/Account/Login", area = "Identity", action = "", controller = ""}. Executing page /Account/Login
+2026-03-30 11:32:18.312 +01:00 [INF] Executing handler method FoodSafety.MVC.Areas.Identity.Pages.Account.LoginModel.OnGetAsync - ModelState is "Valid"
+2026-03-30 11:32:18.313 +01:00 [INF] Executed handler method OnGetAsync, returned result .
+2026-03-30 11:32:18.313 +01:00 [INF] Executing an implicit handler method - ModelState is "Valid"
+2026-03-30 11:32:18.313 +01:00 [INF] Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+2026-03-30 11:32:18.318 +01:00 [INF] Executed page /Account/Login in 9.6949ms
+2026-03-30 11:32:18.318 +01:00 [INF] Executed endpoint '/Account/Login'
+2026-03-30 11:32:18.318 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5123/Identity/Account/Login - 200 null text/html; charset=utf-8 13.9307ms
+2026-03-30 11:32:34.985 +01:00 [INF] Request starting HTTP/1.1 POST http://localhost:5123/Identity/Account/Login - application/x-www-form-urlencoded 0
+2026-03-30 11:32:34.992 +01:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2026-03-30 11:32:34.993 +01:00 [INF] Executing endpoint '/Account/Login'
+2026-03-30 11:32:34.994 +01:00 [INF] Route matched with {page = "/Account/Login", area = "Identity", action = "", controller = ""}. Executing page /Account/Login
+2026-03-30 11:32:34.997 +01:00 [INF] Antiforgery token validation failed. The required antiforgery cookie ".AspNetCore.Antiforgery.6lm_wG-lzSw" is not present.
+Microsoft.AspNetCore.Antiforgery.AntiforgeryValidationException: The required antiforgery cookie ".AspNetCore.Antiforgery.6lm_wG-lzSw" is not present.
+   at Microsoft.AspNetCore.Antiforgery.DefaultAntiforgery.ValidateRequestAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.Filters.ValidateAntiforgeryTokenAuthorizationFilter.OnAuthorizationAsync(AuthorizationFilterContext context)
+2026-03-30 11:32:35.000 +01:00 [INF] Authorization failed for the request at filter 'Microsoft.AspNetCore.Mvc.ViewFeatures.Filters.AutoValidateAntiforgeryTokenAuthorizationFilter'.
+2026-03-30 11:32:35.001 +01:00 [INF] Executing StatusCodeResult, setting HTTP status code 400
+2026-03-30 11:32:35.001 +01:00 [INF] Executed page /Account/Login in 6.0085ms
+2026-03-30 11:32:35.001 +01:00 [INF] Executed endpoint '/Account/Login'
+2026-03-30 11:32:35.002 +01:00 [INF] Request finished HTTP/1.1 POST http://localhost:5123/Identity/Account/Login - 400 0 null 17.5629ms
+2026-03-30 11:32:47.905 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5123/Identity/Account/Login - null null
+2026-03-30 11:32:47.906 +01:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2026-03-30 11:32:47.906 +01:00 [INF] Executing endpoint '/Account/Login'
+2026-03-30 11:32:47.906 +01:00 [INF] Route matched with {page = "/Account/Login", area = "Identity", action = "", controller = ""}. Executing page /Account/Login
+2026-03-30 11:32:47.909 +01:00 [INF] Executing handler method FoodSafety.MVC.Areas.Identity.Pages.Account.LoginModel.OnGetAsync - ModelState is "Valid"
+2026-03-30 11:32:47.909 +01:00 [INF] Executed handler method OnGetAsync, returned result .
+2026-03-30 11:32:47.909 +01:00 [INF] Executing an implicit handler method - ModelState is "Valid"
+2026-03-30 11:32:47.909 +01:00 [INF] Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+2026-03-30 11:32:47.914 +01:00 [INF] Executed page /Account/Login in 8.2298ms
+2026-03-30 11:32:47.915 +01:00 [INF] Executed endpoint '/Account/Login'
+2026-03-30 11:32:47.915 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5123/Identity/Account/Login - 200 null text/html; charset=utf-8 10.3204ms
+2026-03-30 11:32:53.301 +01:00 [INF] Request starting HTTP/1.1 POST http://localhost:5123/Identity/Account/Login - application/x-www-form-urlencoded 0
+2026-03-30 11:32:53.303 +01:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2026-03-30 11:32:53.303 +01:00 [INF] Executing endpoint '/Account/Login'
+2026-03-30 11:32:53.303 +01:00 [INF] Route matched with {page = "/Account/Login", area = "Identity", action = "", controller = ""}. Executing page /Account/Login
+2026-03-30 11:32:53.304 +01:00 [INF] Antiforgery token validation failed. The required antiforgery cookie ".AspNetCore.Antiforgery.6lm_wG-lzSw" is not present.
+Microsoft.AspNetCore.Antiforgery.AntiforgeryValidationException: The required antiforgery cookie ".AspNetCore.Antiforgery.6lm_wG-lzSw" is not present.
+   at Microsoft.AspNetCore.Antiforgery.DefaultAntiforgery.ValidateRequestAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.Filters.ValidateAntiforgeryTokenAuthorizationFilter.OnAuthorizationAsync(AuthorizationFilterContext context)
+2026-03-30 11:32:53.305 +01:00 [INF] Authorization failed for the request at filter 'Microsoft.AspNetCore.Mvc.ViewFeatures.Filters.AutoValidateAntiforgeryTokenAuthorizationFilter'.
+2026-03-30 11:32:53.305 +01:00 [INF] Executing StatusCodeResult, setting HTTP status code 400
+2026-03-30 11:32:53.305 +01:00 [INF] Executed page /Account/Login in 1.6849ms
+2026-03-30 11:32:53.305 +01:00 [INF] Executed endpoint '/Account/Login'
+2026-03-30 11:32:53.305 +01:00 [INF] Request finished HTTP/1.1 POST http://localhost:5123/Identity/Account/Login - 400 0 null 4.6447ms
+2026-03-30 11:32:56.171 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5123/Identity/Account/Login - null null
+2026-03-30 11:32:56.172 +01:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2026-03-30 11:32:56.172 +01:00 [INF] Executing endpoint '/Account/Login'
+2026-03-30 11:32:56.172 +01:00 [INF] Route matched with {page = "/Account/Login", area = "Identity", action = "", controller = ""}. Executing page /Account/Login
+2026-03-30 11:32:56.174 +01:00 [INF] Executing handler method FoodSafety.MVC.Areas.Identity.Pages.Account.LoginModel.OnGetAsync - ModelState is "Valid"
+2026-03-30 11:32:56.174 +01:00 [INF] Executed handler method OnGetAsync, returned result .
+2026-03-30 11:32:56.174 +01:00 [INF] Executing an implicit handler method - ModelState is "Valid"
+2026-03-30 11:32:56.174 +01:00 [INF] Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+2026-03-30 11:32:56.176 +01:00 [INF] Executed page /Account/Login in 4.0592ms
+2026-03-30 11:32:56.176 +01:00 [INF] Executed endpoint '/Account/Login'
+2026-03-30 11:32:56.177 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5123/Identity/Account/Login - 200 null text/html; charset=utf-8 5.994ms
+2026-03-30 11:32:56.890 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5123/Identity/Account/Register - null null
+2026-03-30 11:32:56.892 +01:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2026-03-30 11:32:56.893 +01:00 [INF] Executing endpoint '/Account/Register'
+2026-03-30 11:32:56.893 +01:00 [INF] Route matched with {page = "/Account/Register", area = "Identity", action = "", controller = ""}. Executing page /Account/Register
+2026-03-30 11:32:56.894 +01:00 [INF] Executing handler method FoodSafety.MVC.Areas.Identity.Pages.Account.RegisterModel.OnGet - ModelState is "Valid"
+2026-03-30 11:32:56.894 +01:00 [INF] Executed handler method OnGet, returned result .
+2026-03-30 11:32:56.894 +01:00 [INF] Executing an implicit handler method - ModelState is "Valid"
+2026-03-30 11:32:56.894 +01:00 [INF] Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+2026-03-30 11:32:56.896 +01:00 [INF] Executed page /Account/Register in 2.2648ms
+2026-03-30 11:32:56.896 +01:00 [INF] Executed endpoint '/Account/Register'
+2026-03-30 11:32:56.896 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5123/Identity/Account/Register - 200 null text/html; charset=utf-8 6.0493ms
+2026-03-30 11:32:57.735 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5123/Identity/Account/Login - null null
+2026-03-30 11:32:57.736 +01:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2026-03-30 11:32:57.736 +01:00 [INF] Executing endpoint '/Account/Login'
+2026-03-30 11:32:57.736 +01:00 [INF] Route matched with {page = "/Account/Login", area = "Identity", action = "", controller = ""}. Executing page /Account/Login
+2026-03-30 11:32:57.736 +01:00 [INF] Executing handler method FoodSafety.MVC.Areas.Identity.Pages.Account.LoginModel.OnGetAsync - ModelState is "Valid"
+2026-03-30 11:32:57.736 +01:00 [INF] Executed handler method OnGetAsync, returned result .
+2026-03-30 11:32:57.736 +01:00 [INF] Executing an implicit handler method - ModelState is "Valid"
+2026-03-30 11:32:57.736 +01:00 [INF] Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+2026-03-30 11:32:57.737 +01:00 [INF] Executed page /Account/Login in 0.7765ms
+2026-03-30 11:32:57.737 +01:00 [INF] Executed endpoint '/Account/Login'
+2026-03-30 11:32:57.737 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5123/Identity/Account/Login - 200 null text/html; charset=utf-8 1.3331ms
+2026-03-30 11:34:02.260 +01:00 [INF] Application is shutting down...
+2026-03-30 11:37:01.701 +01:00 [INF] User profile is available. Using '/Users/naranbatnarka/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-03-30 11:37:01.778 +01:00 [INF] Now listening on: http://localhost:5123
+2026-03-30 11:37:01.779 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-03-30 11:37:01.779 +01:00 [INF] Hosting environment: Development
+2026-03-30 11:37:01.779 +01:00 [INF] Content root path: /Users/naranbatnarka/Desktop/FoodSafety/FoodSafety.MVC
+2026-03-30 11:37:04.652 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5123/ - null null
+2026-03-30 11:37:04.659 +01:00 [WRN] Failed to determine the https port for redirect.
+2026-03-30 11:37:04.697 +01:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2026-03-30 11:37:04.699 +01:00 [INF] Executing endpoint 'FoodSafety.MVC.Controllers.HomeController.Index (FoodSafety.MVC)'
+2026-03-30 11:37:04.710 +01:00 [INF] Route matched with {action = "Index", controller = "Home", page = "", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller FoodSafety.MVC.Controllers.HomeController (FoodSafety.MVC).
+2026-03-30 11:37:04.714 +01:00 [INF] Executing ViewResult, running view Index.
+2026-03-30 11:37:04.832 +01:00 [INF] Executed ViewResult - view Index executed in 120.2802ms.
+2026-03-30 11:37:04.833 +01:00 [INF] Executed action FoodSafety.MVC.Controllers.HomeController.Index (FoodSafety.MVC) in 122.324ms
+2026-03-30 11:37:04.833 +01:00 [INF] Executed endpoint 'FoodSafety.MVC.Controllers.HomeController.Index (FoodSafety.MVC)'
+2026-03-30 11:37:04.834 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5123/ - 200 null text/html; charset=utf-8 182.7009ms
+2026-03-30 11:37:04.835 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5123/FoodSafety.MVC.styles.css?v=vc2rrIu8djCePU5iqjSihkX9j-9DZa1dwTuL-ivdTdU - null null
+2026-03-30 11:37:04.835 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5123/css/site.css?v=zeR5PHeeHbxfGkL8WV86OzdoF6UnjuCmnagaocD-cbo - null null
+2026-03-30 11:37:04.835 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5123/lib/jquery/dist/jquery.min.js - null null
+2026-03-30 11:37:04.835 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5123/lib/bootstrap/dist/js/bootstrap.bundle.min.js - null null
+2026-03-30 11:37:04.836 +01:00 [INF] The file /lib/jquery/dist/jquery.min.js was not modified
+2026-03-30 11:37:04.836 +01:00 [INF] The file /FoodSafety.MVC.styles.css was not modified
+2026-03-30 11:37:04.836 +01:00 [INF] The file /lib/bootstrap/dist/js/bootstrap.bundle.min.js was not modified
+2026-03-30 11:37:04.836 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5123/lib/bootstrap/dist/css/bootstrap.min.css - null null
+2026-03-30 11:37:04.836 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5123/js/site.js?v=y_Ngd8W21UpuCUhEqGbUKDEqFnNfTjAfb24GhJJGUyM - null null
+2026-03-30 11:37:04.836 +01:00 [INF] The file /css/site.css was not modified
+2026-03-30 11:37:04.836 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5123/FoodSafety.MVC.styles.css?v=vc2rrIu8djCePU5iqjSihkX9j-9DZa1dwTuL-ivdTdU - 304 null text/css 1.6974ms
+2026-03-30 11:37:04.836 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5123/lib/bootstrap/dist/js/bootstrap.bundle.min.js - 304 null text/javascript 0.8423ms
+2026-03-30 11:37:04.836 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5123/lib/jquery/dist/jquery.min.js - 304 null text/javascript 1.2032ms
+2026-03-30 11:37:04.836 +01:00 [INF] The file /lib/bootstrap/dist/css/bootstrap.min.css was not modified
+2026-03-30 11:37:04.836 +01:00 [INF] The file /js/site.js was not modified
+2026-03-30 11:37:04.838 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5123/lib/bootstrap/dist/css/bootstrap.min.css - 304 null text/css 1.3108ms
+2026-03-30 11:37:04.838 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5123/js/site.js?v=y_Ngd8W21UpuCUhEqGbUKDEqFnNfTjAfb24GhJJGUyM - 304 null text/javascript 1.2931ms
+2026-03-30 11:37:04.837 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5123/css/site.css?v=zeR5PHeeHbxfGkL8WV86OzdoF6UnjuCmnagaocD-cbo - 304 null text/css 1.9147ms
+2026-03-30 11:37:07.218 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5123/Identity/Account/Login - null null
+2026-03-30 11:37:07.222 +01:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2026-03-30 11:37:07.223 +01:00 [INF] Executing endpoint '/Account/Login'
+2026-03-30 11:37:07.244 +01:00 [INF] Route matched with {page = "/Account/Login", area = "Identity", action = "", controller = ""}. Executing page /Account/Login
+2026-03-30 11:37:07.258 +01:00 [INF] Executing handler method FoodSafety.MVC.Areas.Identity.Pages.Account.LoginModel.OnGetAsync - ModelState is "Valid"
+2026-03-30 11:37:07.259 +01:00 [INF] Executed handler method OnGetAsync, returned result .
+2026-03-30 11:37:07.260 +01:00 [INF] Executing an implicit handler method - ModelState is "Valid"
+2026-03-30 11:37:07.260 +01:00 [INF] Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+2026-03-30 11:37:07.271 +01:00 [INF] Executed page /Account/Login in 27.0345ms
+2026-03-30 11:37:07.271 +01:00 [INF] Executed endpoint '/Account/Login'
+2026-03-30 11:37:07.271 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5123/Identity/Account/Login - 200 null text/html; charset=utf-8 54.0628ms
+2026-03-30 11:37:57.082 +01:00 [INF] Request starting HTTP/1.1 POST http://localhost:5123/Identity/Account/Login - application/x-www-form-urlencoded 0
+2026-03-30 11:37:57.092 +01:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2026-03-30 11:37:57.092 +01:00 [INF] Executing endpoint '/Account/Login'
+2026-03-30 11:37:57.093 +01:00 [INF] Route matched with {page = "/Account/Login", area = "Identity", action = "", controller = ""}. Executing page /Account/Login
+2026-03-30 11:37:57.096 +01:00 [INF] Antiforgery token validation failed. The required antiforgery cookie ".AspNetCore.Antiforgery.6lm_wG-lzSw" is not present.
+Microsoft.AspNetCore.Antiforgery.AntiforgeryValidationException: The required antiforgery cookie ".AspNetCore.Antiforgery.6lm_wG-lzSw" is not present.
+   at Microsoft.AspNetCore.Antiforgery.DefaultAntiforgery.ValidateRequestAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.Filters.ValidateAntiforgeryTokenAuthorizationFilter.OnAuthorizationAsync(AuthorizationFilterContext context)
+2026-03-30 11:37:57.107 +01:00 [INF] Authorization failed for the request at filter 'Microsoft.AspNetCore.Mvc.ViewFeatures.Filters.AutoValidateAntiforgeryTokenAuthorizationFilter'.
+2026-03-30 11:37:57.108 +01:00 [INF] Executing StatusCodeResult, setting HTTP status code 400
+2026-03-30 11:37:57.108 +01:00 [INF] Executed page /Account/Login in 15.2056ms
+2026-03-30 11:37:57.108 +01:00 [INF] Executed endpoint '/Account/Login'
+2026-03-30 11:37:57.109 +01:00 [INF] Request finished HTTP/1.1 POST http://localhost:5123/Identity/Account/Login - 400 0 null 27.4484ms
+2026-03-30 11:39:30.894 +01:00 [INF] Application is shutting down...
+2026-03-30 11:44:11.431 +01:00 [INF] User profile is available. Using '/Users/naranbatnarka/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-03-30 11:44:11.504 +01:00 [INF] Now listening on: http://localhost:5123
+2026-03-30 11:44:11.505 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-03-30 11:44:11.505 +01:00 [INF] Hosting environment: Development
+2026-03-30 11:44:11.505 +01:00 [INF] Content root path: /Users/naranbatnarka/Desktop/FoodSafety/FoodSafety.MVC
+2026-03-30 11:44:13.158 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5123/ - null null
+2026-03-30 11:44:13.160 +01:00 [WRN] Failed to determine the https port for redirect.
+2026-03-30 11:44:13.185 +01:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2026-03-30 11:44:13.187 +01:00 [INF] Executing endpoint 'FoodSafety.MVC.Controllers.HomeController.Index (FoodSafety.MVC)'
+2026-03-30 11:44:13.205 +01:00 [INF] Route matched with {action = "Index", controller = "Home", page = "", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller FoodSafety.MVC.Controllers.HomeController (FoodSafety.MVC).
+2026-03-30 11:44:13.209 +01:00 [INF] Executing ViewResult, running view Index.
+2026-03-30 11:44:13.458 +01:00 [INF] Executed ViewResult - view Index executed in 249.6015ms.
+2026-03-30 11:44:13.458 +01:00 [INF] Executed action FoodSafety.MVC.Controllers.HomeController.Index (FoodSafety.MVC) in 252.9287ms
+2026-03-30 11:44:13.458 +01:00 [INF] Executed endpoint 'FoodSafety.MVC.Controllers.HomeController.Index (FoodSafety.MVC)'
+2026-03-30 11:44:13.459 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5123/js/site.js?v=y_Ngd8W21UpuCUhEqGbUKDEqFnNfTjAfb24GhJJGUyM - null null
+2026-03-30 11:44:13.459 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5123/css/site.css?v=zeR5PHeeHbxfGkL8WV86OzdoF6UnjuCmnagaocD-cbo - null null
+2026-03-30 11:44:13.460 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5123/ - 200 null text/html; charset=utf-8 303.1221ms
+2026-03-30 11:44:13.460 +01:00 [INF] The file /css/site.css was not modified
+2026-03-30 11:44:13.460 +01:00 [INF] The file /js/site.js was not modified
+2026-03-30 11:44:13.461 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5123/css/site.css?v=zeR5PHeeHbxfGkL8WV86OzdoF6UnjuCmnagaocD-cbo - 304 null text/css 2.5376ms
+2026-03-30 11:44:13.461 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5123/js/site.js?v=y_Ngd8W21UpuCUhEqGbUKDEqFnNfTjAfb24GhJJGUyM - 304 null text/javascript 2.5531ms
+2026-03-30 11:44:15.395 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5123/Identity/Account/Login - null null
+2026-03-30 11:44:15.401 +01:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2026-03-30 11:44:15.401 +01:00 [INF] Executing endpoint '/Account/Login'
+2026-03-30 11:44:15.420 +01:00 [INF] Route matched with {page = "/Account/Login", area = "Identity", action = "", controller = ""}. Executing page /Account/Login
+2026-03-30 11:44:15.432 +01:00 [INF] Executing handler method FoodSafety.MVC.Areas.Identity.Pages.Account.LoginModel.OnGetAsync - ModelState is "Valid"
+2026-03-30 11:44:15.433 +01:00 [INF] Executed handler method OnGetAsync, returned result .
+2026-03-30 11:44:15.435 +01:00 [INF] Executing an implicit handler method - ModelState is "Valid"
+2026-03-30 11:44:15.435 +01:00 [INF] Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+2026-03-30 11:44:15.444 +01:00 [INF] Executed page /Account/Login in 23.5599ms
+2026-03-30 11:44:15.444 +01:00 [INF] Executed endpoint '/Account/Login'
+2026-03-30 11:44:15.444 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5123/Identity/Account/Login - 200 null text/html; charset=utf-8 49.449ms
+2026-03-30 11:44:32.954 +01:00 [INF] Request starting HTTP/1.1 POST http://localhost:5123/Identity/Account/Login - application/x-www-form-urlencoded 0
+2026-03-30 11:44:32.967 +01:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2026-03-30 11:44:32.968 +01:00 [INF] Executing endpoint '/Account/Login'
+2026-03-30 11:44:32.968 +01:00 [INF] Route matched with {page = "/Account/Login", area = "Identity", action = "", controller = ""}. Executing page /Account/Login
+2026-03-30 11:44:32.971 +01:00 [INF] Antiforgery token validation failed. The required antiforgery cookie ".AspNetCore.Antiforgery.6lm_wG-lzSw" is not present.
+Microsoft.AspNetCore.Antiforgery.AntiforgeryValidationException: The required antiforgery cookie ".AspNetCore.Antiforgery.6lm_wG-lzSw" is not present.
+   at Microsoft.AspNetCore.Antiforgery.DefaultAntiforgery.ValidateRequestAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.Filters.ValidateAntiforgeryTokenAuthorizationFilter.OnAuthorizationAsync(AuthorizationFilterContext context)
+2026-03-30 11:44:32.977 +01:00 [INF] Authorization failed for the request at filter 'Microsoft.AspNetCore.Mvc.ViewFeatures.Filters.AutoValidateAntiforgeryTokenAuthorizationFilter'.
+2026-03-30 11:44:32.982 +01:00 [INF] Executing StatusCodeResult, setting HTTP status code 400
+2026-03-30 11:44:32.983 +01:00 [INF] Executed page /Account/Login in 14.189ms
+2026-03-30 11:44:32.983 +01:00 [INF] Executed endpoint '/Account/Login'
+2026-03-30 11:44:32.983 +01:00 [INF] Request finished HTTP/1.1 POST http://localhost:5123/Identity/Account/Login - 400 0 null 29.7748ms
+2026-03-30 11:59:09.594 +01:00 [INF] Application is shutting down...
+2026-03-30 12:56:13.078 +01:00 [INF] User profile is available. Using '/Users/naranbatnarka/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-03-30 12:56:13.147 +01:00 [INF] Now listening on: http://localhost:5123
+2026-03-30 12:56:13.147 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-03-30 12:56:13.147 +01:00 [INF] Hosting environment: Development
+2026-03-30 12:56:13.147 +01:00 [INF] Content root path: /Users/naranbatnarka/Desktop/FoodSafety/FoodSafety.MVC
+2026-03-30 12:56:15.917 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5123/ - null null
+2026-03-30 12:56:15.920 +01:00 [WRN] Failed to determine the https port for redirect.
+2026-03-30 12:56:15.937 +01:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2026-03-30 12:56:15.939 +01:00 [INF] Executing endpoint 'FoodSafety.MVC.Controllers.HomeController.Index (FoodSafety.MVC)'
+2026-03-30 12:56:15.946 +01:00 [INF] Route matched with {action = "Index", controller = "Home", page = "", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller FoodSafety.MVC.Controllers.HomeController (FoodSafety.MVC).
+2026-03-30 12:56:15.951 +01:00 [INF] Executing ViewResult, running view Index.
+2026-03-30 12:56:16.077 +01:00 [INF] Executed ViewResult - view Index executed in 129.0123ms.
+2026-03-30 12:56:16.078 +01:00 [INF] Executed action FoodSafety.MVC.Controllers.HomeController.Index (FoodSafety.MVC) in 131.501ms
+2026-03-30 12:56:16.078 +01:00 [INF] Executed endpoint 'FoodSafety.MVC.Controllers.HomeController.Index (FoodSafety.MVC)'
+2026-03-30 12:56:16.079 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5123/ - 200 null text/html; charset=utf-8 163.4962ms
+2026-03-30 12:56:16.080 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5123/css/site.css?v=zeR5PHeeHbxfGkL8WV86OzdoF6UnjuCmnagaocD-cbo - null null
+2026-03-30 12:56:16.080 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5123/js/site.js?v=y_Ngd8W21UpuCUhEqGbUKDEqFnNfTjAfb24GhJJGUyM - null null
+2026-03-30 12:56:16.082 +01:00 [INF] The file /js/site.js was not modified
+2026-03-30 12:56:16.082 +01:00 [INF] The file /css/site.css was not modified
+2026-03-30 12:56:16.082 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5123/js/site.js?v=y_Ngd8W21UpuCUhEqGbUKDEqFnNfTjAfb24GhJJGUyM - 304 null text/javascript 1.6939ms
+2026-03-30 12:56:16.082 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5123/css/site.css?v=zeR5PHeeHbxfGkL8WV86OzdoF6UnjuCmnagaocD-cbo - 304 null text/css 1.9523ms
+2026-03-30 12:56:17.835 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5123/Identity/Account/Login - null null
+2026-03-30 12:56:17.843 +01:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2026-03-30 12:56:17.844 +01:00 [INF] Executing endpoint '/Account/Login'
+2026-03-30 12:56:17.857 +01:00 [INF] Route matched with {page = "/Account/Login", area = "Identity", action = "", controller = ""}. Executing page /Account/Login
+2026-03-30 12:56:17.867 +01:00 [INF] Executing handler method FoodSafety.MVC.Areas.Identity.Pages.Account.LoginModel.OnGetAsync - ModelState is "Valid"
+2026-03-30 12:56:17.868 +01:00 [INF] Executed handler method OnGetAsync, returned result .
+2026-03-30 12:56:17.869 +01:00 [INF] Executing an implicit handler method - ModelState is "Valid"
+2026-03-30 12:56:17.869 +01:00 [INF] Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+2026-03-30 12:56:17.880 +01:00 [INF] Executed page /Account/Login in 22.9771ms
+2026-03-30 12:56:17.881 +01:00 [INF] Executed endpoint '/Account/Login'
+2026-03-30 12:56:17.881 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5123/Identity/Account/Login - 200 null text/html; charset=utf-8 45.9805ms
+2026-03-30 12:56:31.279 +01:00 [INF] Request starting HTTP/1.1 POST http://localhost:5123/Identity/Account/Login - application/x-www-form-urlencoded 0
+2026-03-30 12:56:31.296 +01:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2026-03-30 12:56:31.297 +01:00 [INF] Executing endpoint '/Account/Login'
+2026-03-30 12:56:31.298 +01:00 [INF] Route matched with {page = "/Account/Login", area = "Identity", action = "", controller = ""}. Executing page /Account/Login
+2026-03-30 12:56:31.305 +01:00 [INF] Antiforgery token validation failed. The required antiforgery cookie ".AspNetCore.Antiforgery.6lm_wG-lzSw" is not present.
+Microsoft.AspNetCore.Antiforgery.AntiforgeryValidationException: The required antiforgery cookie ".AspNetCore.Antiforgery.6lm_wG-lzSw" is not present.
+   at Microsoft.AspNetCore.Antiforgery.DefaultAntiforgery.ValidateRequestAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.Filters.ValidateAntiforgeryTokenAuthorizationFilter.OnAuthorizationAsync(AuthorizationFilterContext context)
+2026-03-30 12:56:31.314 +01:00 [INF] Authorization failed for the request at filter 'Microsoft.AspNetCore.Mvc.ViewFeatures.Filters.AutoValidateAntiforgeryTokenAuthorizationFilter'.
+2026-03-30 12:56:31.319 +01:00 [INF] Executing StatusCodeResult, setting HTTP status code 400
+2026-03-30 12:56:31.319 +01:00 [INF] Executed page /Account/Login in 20.9227ms
+2026-03-30 12:56:31.320 +01:00 [INF] Executed endpoint '/Account/Login'
+2026-03-30 12:56:31.320 +01:00 [INF] Request finished HTTP/1.1 POST http://localhost:5123/Identity/Account/Login - 400 0 null 41.724ms
+2026-03-30 12:57:14.923 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5123/Identity/Account/Login - null null
+2026-03-30 12:57:14.926 +01:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2026-03-30 12:57:14.926 +01:00 [INF] Executing endpoint '/Account/Login'
+2026-03-30 12:57:14.927 +01:00 [INF] Route matched with {page = "/Account/Login", area = "Identity", action = "", controller = ""}. Executing page /Account/Login
+2026-03-30 12:57:14.945 +01:00 [INF] Executing handler method FoodSafety.MVC.Areas.Identity.Pages.Account.LoginModel.OnGetAsync - ModelState is "Valid"
+2026-03-30 12:57:14.945 +01:00 [INF] Executed handler method OnGetAsync, returned result .
+2026-03-30 12:57:14.945 +01:00 [INF] Executing an implicit handler method - ModelState is "Valid"
+2026-03-30 12:57:14.945 +01:00 [INF] Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+2026-03-30 12:57:14.954 +01:00 [INF] Executed page /Account/Login in 26.036ms
+2026-03-30 12:57:14.954 +01:00 [INF] Executed endpoint '/Account/Login'
+2026-03-30 12:57:14.954 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5123/Identity/Account/Login - 200 null text/html; charset=utf-8 30.7097ms
+2026-03-30 12:57:28.222 +01:00 [INF] Request starting HTTP/1.1 POST http://localhost:5123/Identity/Account/Login - application/x-www-form-urlencoded 0
+2026-03-30 12:57:28.226 +01:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2026-03-30 12:57:28.226 +01:00 [INF] Executing endpoint '/Account/Login'
+2026-03-30 12:57:28.227 +01:00 [INF] Route matched with {page = "/Account/Login", area = "Identity", action = "", controller = ""}. Executing page /Account/Login
+2026-03-30 12:57:28.230 +01:00 [INF] Antiforgery token validation failed. The required antiforgery cookie ".AspNetCore.Antiforgery.6lm_wG-lzSw" is not present.
+Microsoft.AspNetCore.Antiforgery.AntiforgeryValidationException: The required antiforgery cookie ".AspNetCore.Antiforgery.6lm_wG-lzSw" is not present.
+   at Microsoft.AspNetCore.Antiforgery.DefaultAntiforgery.ValidateRequestAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.Filters.ValidateAntiforgeryTokenAuthorizationFilter.OnAuthorizationAsync(AuthorizationFilterContext context)
+2026-03-30 12:57:28.234 +01:00 [INF] Authorization failed for the request at filter 'Microsoft.AspNetCore.Mvc.ViewFeatures.Filters.AutoValidateAntiforgeryTokenAuthorizationFilter'.
+2026-03-30 12:57:28.234 +01:00 [INF] Executing StatusCodeResult, setting HTTP status code 400
+2026-03-30 12:57:28.235 +01:00 [INF] Executed page /Account/Login in 7.397ms
+2026-03-30 12:57:28.235 +01:00 [INF] Executed endpoint '/Account/Login'
+2026-03-30 12:57:28.237 +01:00 [INF] Request finished HTTP/1.1 POST http://localhost:5123/Identity/Account/Login - 400 0 null 16.1218ms
+2026-03-30 13:01:24.642 +01:00 [INF] Application is shutting down...

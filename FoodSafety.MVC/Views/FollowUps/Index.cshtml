@@ -1,0 +1,58 @@
+@model IEnumerable<FoodSafety.Domain.Models.FollowUp>
+
+@{
+    ViewData["Title"] = "Follow Ups";
+}
+
+<h1>Follow Ups</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New Follow Up</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Inspection</th>
+            <th>Premises</th>
+            <th>Due Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Inspection?.Id</td>
+                <td>@item.Inspection?.Premises?.Name</td>
+                <td>@item.DueDate.ToShortDateString()</td>
+                <td>
+                    @if (item.Status == "Open")
+                    {
+                        if (item.DueDate < DateTime.Today)
+                        {
+                            <span class="badge bg-danger">Overdue</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-warning">Open</span>
+                        }
+                    }
+                    else
+                    {
+                        <span class="badge bg-success">Closed</span>
+                    }
+                </td>
+                <td>
+                    @if (item.Status == "Open")
+                    {
+                        <form asp-action="Close" asp-route-id="@item.Id" method="post" style="display:inline">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-sm btn-success">Close</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
