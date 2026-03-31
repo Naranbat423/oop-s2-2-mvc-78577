@@ -1,0 +1,214 @@
+@model FoodSafety.MVC.Models.ViewModels.DashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h1>Food Safety Inspection Dashboard</h1>
+
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4>Filter Dashboard</h4>
+            </div>
+            <div class="card-body">
+                <form method="get" asp-action="Index">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="form-label">Town</label>
+                            <select name="town" class="form-control">
+                                <option value="">All Towns</option>
+                                @foreach (var town in Model.Towns)
+                                {
+                                    <option value="@town" selected="@(town == Model.SelectedTown)">@town</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Risk Rating</label>
+                            <select name="riskRating" class="form-control">
+                                <option value="">All Ratings</option>
+                                @foreach (var rating in Model.RiskRatings)
+                                {
+                                    <option value="@rating" selected="@(rating == Model.SelectedRiskRating)">@rating</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-4 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary">Apply Filters</button>
+                            <a asp-action="Index" class="btn btn-secondary ms-2">Clear</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-3">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <h5 class="card-title">Inspections This Month</h5>
+                <h2 class="display-4">@Model.InspectionsThisMonth</h2>
+                <p class="card-text">Total inspections conducted this month</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-3">
+        <div class="card bg-danger text-white">
+            <div class="card-body">
+                <h5 class="card-title">Failed Inspections</h5>
+                <h2 class="display-4">@Model.FailedInspectionsThisMonth</h2>
+                <p class="card-text">Inspections that failed this month</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-3">
+        <div class="card bg-warning text-dark">
+            <div class="card-body">
+                <h5 class="card-title">Overdue Follow-Ups</h5>
+                <h2 class="display-4">@Model.OverdueFollowUps</h2>
+                <p class="card-text">Open follow-ups past due date</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (Model.SelectedTown != null || Model.SelectedRiskRating != null)
+{
+    <div class="alert alert-info">
+        <strong>Active Filters:</strong>
+        @if (Model.SelectedTown != null)
+        {
+            <span class="badge bg-primary me-1">Town: @Model.SelectedTown</span>
+        }
+        @if (Model.SelectedRiskRating != null)
+        {
+            <span class="badge bg-primary">Risk: @Model.SelectedRiskRating</span>
+        }
+    </div>
+}
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                <h4>Failed Inspections</h4>
+            </div>
+            <div class="card-body">
+                @if (!Model.FailedInspections.Any())
+                {
+                    <p class="text-muted">No failed inspections found with current filters.</p>
+                }
+                else
+                {
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Premises</th>
+                                <th>Town</th>
+                                <th>Risk Rating</th>
+                                <th>Date</th>
+                                <th>Score</th>
+                                <th>Notes</th>
+                            </thead>
+                        <tbody>
+                            @foreach (var item in Model.FailedInspections)
+                            {
+                                 <tr>
+                                     <td>@item.Premises?.Name</td
+                                     <td>@item.Premises?.Town</td
+                                     <td>
+                                        @if (item.Premises?.RiskRating == "High")
+                                        {
+                                            <span class="badge bg-danger">High</span>
+                                        }
+                                        else if (item.Premises?.RiskRating == "Medium")
+                                        {
+                                            <span class="badge bg-warning">Medium</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-success">Low</span>
+                                        }
+                                     </td
+                                     <td>@item.InspectionDate.ToShortDateString()</td
+                                     <td><span class="badge bg-danger">@item.Score</span></td
+                                     <td>@item.Notes</td
+                                  </tr
+                            }
+                        </tbody>
+                     </table
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h4>Overdue Follow-Ups</h4>
+            </div>
+            <div class="card-body">
+                @if (!Model.OverdueFollowUpsList.Any())
+                {
+                    <p class="text-muted">No overdue follow-ups found with current filters.</p>
+                }
+                else
+                {
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Premises</th>
+                                <th>Town</th>
+                                <th>Risk Rating</th>
+                                <th>Inspection Date</th>
+                                <th>Due Date</th>
+                                <th>Days Overdue</th>
+                                <th></th>
+                            </thead>
+                        <tbody>
+                            @foreach (var item in Model.OverdueFollowUpsList)
+                            {
+                                var daysOverdue = (DateTime.Today - item.DueDate).Days;
+                                 <tr>
+                                     <td>@item.Inspection?.Premises?.Name</td
+                                     <td>@item.Inspection?.Premises?.Town</td
+                                     <td>
+                                        @if (item.Inspection?.Premises?.RiskRating == "High")
+                                        {
+                                            <span class="badge bg-danger">High</span>
+                                        }
+                                        else if (item.Inspection?.Premises?.RiskRating == "Medium")
+                                        {
+                                            <span class="badge bg-warning">Medium</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-success">Low</span>
+                                        }
+                                     </td
+                                     <td>@item.Inspection?.InspectionDate.ToShortDateString()</td
+                                     <td>@item.DueDate.ToShortDateString()</td
+                                     <td><span class="badge bg-danger">@daysOverdue days</span></td
+                                     <td>
+                                        <form asp-controller="FollowUps" asp-action="Close" asp-route-id="@item.Id" method="post">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn btn-sm btn-success">Close</button>
+                                        </form>
+                                     </td
+                                  </tr
+                            }
+                        </tbody>
+                     </table
+                }
+            </div>
+        </div>
+    </div>
+</div>
