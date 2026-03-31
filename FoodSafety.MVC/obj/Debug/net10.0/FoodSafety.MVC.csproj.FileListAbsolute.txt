@@ -301,3 +301,4 @@
 /Users/naranbatnarka/Desktop/FoodSafety/FoodSafety.MVC/obj/Debug/net10.0/FoodSafety.MVC.pdb
 /Users/naranbatnarka/Desktop/FoodSafety/FoodSafety.MVC/obj/Debug/net10.0/FoodSafety.MVC.genruntimeconfig.cache
 /Users/naranbatnarka/Desktop/FoodSafety/FoodSafety.MVC/obj/Debug/net10.0/ref/FoodSafety.MVC.dll
+/Users/naranbatnarka/Desktop/FoodSafety/FoodSafety.MVC/obj/Debug/net10.0/FoodSafety.MVC.sourcelink.json

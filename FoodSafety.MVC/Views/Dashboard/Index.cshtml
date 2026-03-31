@@ -97,7 +97,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header bg-danger text-white">
-                <h4>Failed Inspections</h4>
+                <h4>Failed Inspections (This Month)</h4>
             </div>
             <div class="card-body">
                 @if (!Model.FailedInspections.Any())
@@ -120,9 +120,9 @@
                             @foreach (var item in Model.FailedInspections)
                             {
                                  <tr>
-                                     <td>@item.Premises?.Name</td
-                                     <td>@item.Premises?.Town</td
-                                     <td>
+                                    <td>@item.Premises?.Name</td>
+                                    <td>@item.Premises?.Town</td>
+                                    <td>
                                         @if (item.Premises?.RiskRating == "High")
                                         {
                                             <span class="badge bg-danger">High</span>
@@ -135,14 +135,14 @@
                                         {
                                             <span class="badge bg-success">Low</span>
                                         }
-                                     </td
-                                     <td>@item.InspectionDate.ToShortDateString()</td
-                                     <td><span class="badge bg-danger">@item.Score</span></td
-                                     <td>@item.Notes</td
-                                  </tr
+                                    </td>
+                                    <td>@item.InspectionDate.ToShortDateString()</td>
+                                    <td><span class="badge bg-danger">@item.Score</span></td>
+                                    <td>@item.Notes</td>
+                                </tr>
                             }
                         </tbody>
-                     </table
+                    </table>
                 }
             </div>
         </div>
@@ -177,10 +177,10 @@
                             @foreach (var item in Model.OverdueFollowUpsList)
                             {
                                 var daysOverdue = (DateTime.Today - item.DueDate).Days;
-                                 <tr>
-                                     <td>@item.Inspection?.Premises?.Name</td
-                                     <td>@item.Inspection?.Premises?.Town</td
-                                     <td>
+                                <tr>
+                                    <td>@item.Inspection?.Premises?.Name</td>
+                                    <td>@item.Inspection?.Premises?.Town</td>
+                                    <td>
                                         @if (item.Inspection?.Premises?.RiskRating == "High")
                                         {
                                             <span class="badge bg-danger">High</span>
@@ -193,20 +193,20 @@
                                         {
                                             <span class="badge bg-success">Low</span>
                                         }
-                                     </td
-                                     <td>@item.Inspection?.InspectionDate.ToShortDateString()</td
-                                     <td>@item.DueDate.ToShortDateString()</td
-                                     <td><span class="badge bg-danger">@daysOverdue days</span></td
-                                     <td>
+                                    </td>
+                                    <td>@item.Inspection?.InspectionDate.ToShortDateString()</td>
+                                    <td>@item.DueDate.ToShortDateString()</td>
+                                    <td><span class="badge bg-danger">@daysOverdue days</span></td>
+                                    <td>
                                         <form asp-controller="FollowUps" asp-action="Close" asp-route-id="@item.Id" method="post">
                                             @Html.AntiForgeryToken()
                                             <button type="submit" class="btn btn-sm btn-success">Close</button>
                                         </form>
-                                     </td
-                                  </tr
+                                    </td>
+                                </tr>
                             }
                         </tbody>
-                     </table
+                    </table>
                 }
             </div>
         </div>

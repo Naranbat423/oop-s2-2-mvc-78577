@@ -129,58 +129,43 @@ static async Task SeedDataAsync(ApplicationDbContext context, UserManager<Identi
         var towns = new[] { "Dublin", "Cork", "Galway", "Limerick", "Waterford" };
         var riskRatings = new[] { "Low", "Medium", "High" };
         
-        var faker = new Faker();
-        var premises = new List<Premises>();
-        
-        for (int i = 0; i < 12; i++)
-        {
-            premises.Add(new Premises
-            {
-                Name = faker.Company.CompanyName() + " " + faker.PickRandom("Cafe", "Restaurant", "Takeaway", "Hotel"),
-                Address = faker.Address.StreetAddress(),
-                Town = faker.PickRandom(towns),
-                RiskRating = faker.PickRandom(riskRatings)
-            });
-        }
+        var premisesFaker = new Faker<Premises>()
+            .RuleFor(p => p.Name, f => f.Company.CompanyName() + " " + f.PickRandom("Cafe", "Restaurant", "Takeaway", "Hotel"))
+            .RuleFor(p => p.Address, f => f.Address.StreetAddress())
+            .RuleFor(p => p.Town, f => f.PickRandom(towns))
+            .RuleFor(p => p.RiskRating, f => f.PickRandom(riskRatings));
+
+        var premises = premisesFaker.Generate(12);
         await context.Premises.AddRangeAsync(premises);
         await context.SaveChangesAsync();
 
         // Seed Inspections
-        var inspections = new List<Inspection>();
-        for (int i = 0; i < 25; i++)
-        {
-            var score = faker.Random.Int(0, 100);
-            inspections.Add(new Inspection
-            {
-                PremisesId = faker.PickRandom(premises).Id,
-                InspectionDate = faker.Date.Past(180),
-                Score = score,
-                Outcome = score >= 70 ? "Pass" : "Fail",
-                Notes = faker.Lorem.Sentence()
-            });
-        }
+        var inspectionsFaker = new Faker<Inspection>()
+            .RuleFor(i => i.PremisesId, f => f.PickRandom(premises).Id)
+            .RuleFor(i => i.InspectionDate, f => f.Date.Past(180))
+            .RuleFor(i => i.Score, f => f.Random.Int(0, 100))
+            .RuleFor(i => i.Outcome, (f, i) => i.Score >= 70 ? "Pass" : "Fail")
+            .RuleFor(i => i.Notes, f => f.Lorem.Sentence());
+
+        var inspections = inspectionsFaker.Generate(25);
         await context.Inspections.AddRangeAsync(inspections);
         await context.SaveChangesAsync();
 
         // Seed FollowUps
         var failedInspections = inspections.Where(i => i.Outcome == "Fail").ToList();
-        var followUps = new List<FollowUp>();
-        
-        for (int i = 0; i < 10 && i < failedInspections.Count; i++)
+        if (failedInspections.Any())
         {
-            var status = faker.PickRandom(new[] { "Open", "Closed" });
-            followUps.Add(new FollowUp
-            {
-                InspectionId = failedInspections[i].Id,
-                DueDate = faker.Date.Future(30),
-                Status = status,
-                ClosedDate = status == "Closed" ? faker.Date.Past(10) : (DateTime?)null
-            });
+            var followUpsFaker = new Faker<FollowUp>()
+                .RuleFor(f => f.InspectionId, f => f.PickRandom(failedInspections).Id)
+                .RuleFor(f => f.DueDate, f => f.Date.Future(30))
+                .RuleFor(f => f.Status, f => f.PickRandom(new[] { "Open", "Closed" }))
+                .RuleFor(f => f.ClosedDate, (f, fu) => fu.Status == "Closed" ? f.Date.Past(10) : (DateTime?)null);
+
+            var followUps = followUpsFaker.Generate(10);
+            await context.FollowUps.AddRangeAsync(followUps);
+            await context.SaveChangesAsync();
         }
-        await context.FollowUps.AddRangeAsync(followUps);
-        await context.SaveChangesAsync();
         
-        Log.Information("Seed data created: {PremisesCount} premises, {InspectionsCount} inspections, {FollowUpsCount} follow-ups", 
-            premises.Count, inspections.Count, followUps.Count);
+        Log.Information("Seed data created successfully");
     }
 }
